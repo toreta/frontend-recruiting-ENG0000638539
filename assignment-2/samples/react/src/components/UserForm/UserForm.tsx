@@ -68,6 +68,7 @@ export function UserForm() {
             value={zip}
             placeholder={PLACEHOLDER.ZIP}
             isError={isErrorZip}
+            isZip
             errorMessage={ERROR_MESSAGE.ZIP}
             onChange={handleChangeZip}
           />

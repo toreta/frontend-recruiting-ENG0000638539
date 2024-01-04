@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { REGEX } from "./UserForm.const";
+import { REGEX, URL } from "./UserForm.const";
 
 export const useUserForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isErrorEmail, setIsErrorEmail] = useState(false);
-  const [zipCode, setZipCode] = useState("");
-  const [isErrorZipCode, setIsErrorZipCode] = useState(false);
-  const [prefectures, setPrefectures] = useState("");
-  const [streetAddress, setStreetAddress] = useState("");
-  const [buildingName, setBuildingName] = useState("");
+  const [zip, setZip] = useState("");
+  const [isErrorZip, setIsErrorZip] = useState(false);
+  const [prefecture, setPrefecture] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [address2, setAddress2] = useState("");
 
   /**
    * 「氏名」を変更
@@ -34,48 +34,70 @@ export const useUserForm = () => {
   /**
    * 「郵便番号」を変更
    */
-  const handleChangeZipCode = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setZipCode(event.target.value);
-    setIsErrorZipCode(!isValidZipCode());
+  const handleChangeZip = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setZip(event.target.value);
+    setIsErrorZip(!isValidZip());
   };
 
   /**
    * 郵便番号のバリデーション
    */
-  const isValidZipCode = () => REGEX.ZIP_CODE.test(zipCode);
+  const isValidZip = () => REGEX.ZIP_CODE.test(zip);
 
   /**
    * 「都道府県」を変更
    */
-  const handleChangePrefectures = (
+  const handleChangePrefecture = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    setPrefectures(event.target.value);
+    setPrefecture(event.target.value);
   };
 
   /**
    * 「市区町村・番地」を変更
    */
-  const handleChangeStreetAddress = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setStreetAddress(event.target.value);
+  const handleChangeAddress1 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAddress1(event.target.value);
   };
 
   /**
    * 「建物名・号室」を変更
    */
-  const handleChangeBuildingName = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setBuildingName(event.target.value);
+  const handleChangeAddress2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAddress2(event.target.value);
   };
+
+  const isError =
+    !name ||
+    !email ||
+    !zip ||
+    !prefecture ||
+    !address1 ||
+    isErrorEmail ||
+    isErrorZip;
 
   /**
    * 登録をクリック
    */
-  const handleClickSubmit = () => {
-    // TODO: 登録処理
+  const handleClickSubmit = async () => {
+    if (isError) return;
+
+    const body = {
+      name,
+      email,
+      zip,
+      prefecture,
+      address1,
+      address2,
+    };
+
+    await fetch(URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
   };
 
   return {
@@ -84,15 +106,16 @@ export const useUserForm = () => {
     email,
     handleChangeEmail,
     isErrorEmail,
-    zipCode,
-    handleChangeZipCode,
-    isErrorZipCode,
-    prefectures,
-    handleChangePrefectures,
-    streetAddress,
-    handleChangeStreetAddress,
-    buildingName,
-    handleChangeBuildingName,
+    zip,
+    handleChangeZip,
+    isErrorZip,
+    prefecture,
+    handleChangePrefecture,
+    address1,
+    handleChangeAddress1,
+    address2,
+    handleChangeAddress2,
+    isError,
     handleClickSubmit,
   };
 };

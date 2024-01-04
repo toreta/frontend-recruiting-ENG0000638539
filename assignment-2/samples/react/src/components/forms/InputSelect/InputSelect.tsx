@@ -7,7 +7,12 @@ export type InputSelectProps = {
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-export function InputSelect({ value, options, onChange }: InputSelectProps) {
+export function InputSelect({
+  value,
+  options,
+  placeholder,
+  onChange,
+}: InputSelectProps) {
   const isDefault = value === "";
 
   return (
@@ -17,7 +22,7 @@ export function InputSelect({ value, options, onChange }: InputSelectProps) {
       className={`${style.inputSelect} ${isDefault ? style.default : ""}`}
     >
       <option value="" className={style.default}>
-        都道府県を選択してください
+        {placeholder}
       </option>
       {options.map((option) => (
         <option key={option} value={option}>

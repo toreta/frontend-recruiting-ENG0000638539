@@ -1,5 +1,10 @@
 import { useUserForm } from "./useUserForm";
-import { PREFECTURES } from "./UserForm.const";
+import {
+  ERROR_MESSAGE,
+  TEXT,
+  PLACEHOLDER,
+  PREFECTURES,
+} from "./UserForm.const";
 import { Button } from "../Button";
 import { FormLabel } from "../forms/FormLabel";
 import { InputText } from "../forms/InputText";
@@ -13,15 +18,16 @@ export function UserForm() {
     email,
     handleChangeEmail,
     isErrorEmail,
-    zipCode,
-    handleChangeZipCode,
-    isErrorZipCode,
-    prefectures,
-    handleChangePrefectures,
-    streetAddress,
-    handleChangeStreetAddress,
-    buildingName,
-    handleChangeBuildingName,
+    zip,
+    handleChangeZip,
+    isErrorZip,
+    prefecture,
+    handleChangePrefecture,
+    address1,
+    handleChangeAddress1,
+    address2,
+    handleChangeAddress2,
+    isError,
     handleClickSubmit,
   } = useUserForm();
 
@@ -29,82 +35,85 @@ export function UserForm() {
     <div className={style.userForm}>
       <div className={style.formGroup}>
         <div className={style.formLabel}>
-          <FormLabel>氏名</FormLabel>
+          <FormLabel>{TEXT.NAME}</FormLabel>
         </div>
         <div className={style.formInput}>
           <InputText
             value={name}
-            placeholder="(例)トレタ 太郎"
+            placeholder={PLACEHOLDER.NAME}
             onChange={handleChangeName}
           />
         </div>
       </div>
       <div className={style.formGroup}>
         <div className={style.formLabel}>
-          <FormLabel>Eメール</FormLabel>
+          <FormLabel>{TEXT.EMAIL}</FormLabel>
         </div>
         <div className={style.formInput}>
           <InputText
             value={email}
-            placeholder="(例)yoyaku@toreta.in"
+            placeholder={PLACEHOLDER.EMAIL}
             isError={isErrorEmail}
-            errorMessage="正しいメールアドレスを入力してください"
+            errorMessage={ERROR_MESSAGE.EMAIL}
             onChange={handleChangeEmail}
           />
         </div>
       </div>
       <div className={style.formGroup}>
         <div className={style.formLabel}>
-          <FormLabel>郵便番号</FormLabel>
+          <FormLabel>{TEXT.ZIP}</FormLabel>
         </div>
         <div className={style.formInput}>
           <InputText
-            value={zipCode}
-            placeholder="(例)0000000"
-            isError={isErrorZipCode}
-            errorMessage="ハイフンを含めず半角数字で入力してください"
-            onChange={handleChangeZipCode}
+            value={zip}
+            placeholder={PLACEHOLDER.ZIP}
+            isError={isErrorZip}
+            errorMessage={ERROR_MESSAGE.ZIP}
+            onChange={handleChangeZip}
           />
         </div>
       </div>
       <div className={style.formGroup}>
         <div className={style.formLabel}>
-          <FormLabel>都道府県</FormLabel>
+          <FormLabel>{TEXT.PREFECTURES}</FormLabel>
         </div>
         <div className={style.formInput}>
           <InputSelect
-            value={prefectures}
+            value={prefecture}
             options={PREFECTURES}
-            onChange={handleChangePrefectures}
+            placeholder={PLACEHOLDER.PREFECTURES}
+            onChange={handleChangePrefecture}
           />
         </div>
       </div>
       <div className={style.formGroup}>
         <div className={style.formLabel}>
-          <FormLabel>市区町村・番地</FormLabel>
+          <FormLabel>{TEXT.ADDRESS1}</FormLabel>
         </div>
         <div className={style.formInput}>
           <InputText
-            value={streetAddress}
-            placeholder="(例)品川区西五反田７丁目２２−１７"
-            onChange={handleChangeStreetAddress}
+            value={address1}
+            placeholder={PLACEHOLDER.ADDRESS1}
+            onChange={handleChangeAddress1}
           />
         </div>
       </div>
       <div className={style.formGroup}>
         <div className={style.formLabel}>
-          <FormLabel>建物名・号室</FormLabel>
+          <FormLabel>{TEXT.ADDRESS2}</FormLabel>
         </div>
         <div className={style.formInput}>
           <InputText
-            value={buildingName}
-            placeholder="(例)TOCビル 8F"
-            onChange={handleChangeBuildingName}
+            value={address2}
+            placeholder={PLACEHOLDER.ADDRESS2}
+            onChange={handleChangeAddress2}
           />
         </div>
       </div>
       <div className={style.button}>
-        <Button onClick={handleClickSubmit}>登録</Button>
+        <Button isError={isError} onClick={handleClickSubmit}>
+          {TEXT.BUTTON}
+        </Button>
       </div>
     </div>
   );

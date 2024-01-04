@@ -1,0 +1,21 @@
+.inputText {
+  width: 100%;
+  height: 15px;
+  padding: 7.5px;
+  border-radius: 5px;
+  border: 1px solid #e2e2e2;
+}
+
+.inputText::placeholder {
+  color: #d3d3d3;
+}
+
+.isError {
+  border-color: #ff0000;
+}
+
+.errorMessage {
+  color: #ff0000;
+  font-size: 10px;
+  text-align: left;
+}

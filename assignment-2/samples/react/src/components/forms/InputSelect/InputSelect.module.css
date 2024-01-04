@@ -1,0 +1,11 @@
+.inputSelect {
+  width: 230px;
+  height: 30px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #e2e2e2;
+}
+
+.default {
+  color: #d3d3d3;
+}

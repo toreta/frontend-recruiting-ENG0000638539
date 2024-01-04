@@ -1,7 +1,8 @@
+import { UserForm } from "./components/UserForm/UserForm";
 import "./App.css";
 
 function App() {
-  return <div className="App">Please implemtn here</div>;
+  return <UserForm />;
 }
 
 export default App;

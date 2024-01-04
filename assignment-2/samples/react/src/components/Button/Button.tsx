@@ -7,8 +7,6 @@ export type ButtonProps = {
 };
 
 export function Button({ children, isError = false, onClick }: ButtonProps) {
-  console.log(isError);
-
   return (
     <button
       disabled={isError}

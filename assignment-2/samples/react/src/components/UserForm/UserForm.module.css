@@ -1,0 +1,34 @@
+.userForm {
+  width: 400px;
+  margin: 0 auto;
+  padding: 16px 0;
+  text-align: center;
+}
+
+.formGroup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formGroup:not(:first-child) {
+  margin-top: 14px;
+}
+
+.formLabel {
+  flex-basis: 100px;
+  text-align: right;
+}
+
+.formInput {
+  flex-basis: 230px;
+  margin-left: 10px;
+}
+
+.zipCode {
+  width: 100px;
+}
+
+.button {
+  margin-top: 31px;
+}

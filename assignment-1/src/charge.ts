@@ -1,50 +1,30 @@
-export type Invoice = {
-  total: number;
-};
+import { Invoice, Payment, Receipt } from './charge.types';
+import { aggregateDeposit } from './logics/aggregateDeposit';
+import { checkDepositShortageError } from './logics/checkDepositShortageError';
+import { checkIsCoupon } from './logics/checkIsCoupon';
+import { createReceipt } from './logics/createReceipt';
+import { sortPayments } from './logics/sortPayments';
 
-export type Receipt = {
-  total: number;
-  deposit: number;
-  change: number;
-};
-
-export type Payment = {
-  type: string;
-  percentage?: number;
-  amount?: number;
-};
-
-export function charge(invoice: Invoice, payments: Payment[]) {
+/**
+ * `請求書` と `支払い` を受け取り `レシート` を返却
+ */
+export function charge(invoice: Invoice, payments: Payment[]): Receipt {
+  // 合計金額
   const total = invoice.total;
-  let deposit = 0;
 
-  payments
-    .sort((payment) => (payment.type !== 'CASH' ? -1 : 1))
-    .map((payment) => {
-      if (payment.type === 'COUPON') {
-        if (payment.percentage != null) {
-          deposit += Math.floor(total * (payment.percentage / 100));
-        } else {
-          deposit += payment.amount || 0;
-        }
-      } else {
-        if (deposit >= total) {
-          throw new Error('OverCharge');
-        }
-        deposit += payment.amount || 0;
-      }
-    });
-  if (total > deposit) {
-    throw new Error('Shortage');
-  }
+  // 支払い情報をソート
+  const { sortedPayments } = sortPayments({ payments });
+  // 支払い金額を集計
+  const { deposit } = aggregateDeposit({ sortedPayments, total });
 
-  let isCoupon = true;
-  for (let i = 0; i < payments.length; i++) {
-    if (payments[i].type !== 'COUPON') {
-      isCoupon = false;
-      continue;
-    }
-  }
-  if (isCoupon) return { total, deposit, change: 0 };
-  return { total: total, deposit: deposit, change: deposit - total };
+  // 入金額が不足していないか確認
+  checkDepositShortageError({ total, deposit });
+  // クーポンが使用されているか確認
+  const { isCoupon } = checkIsCoupon({ payments });
+
+  // レシート情報を作成
+  return createReceipt({ isCoupon, total, deposit });
 }
+
+export * from './charge.const';
+export * from './charge.types';
